@@ -1,9 +1,13 @@
 package fvi.brackoutV3;
 
+import acm.graphics.GOval;
 import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
+import acm.util.RandomGenerator;
 
 import java.awt.*;
+import java.awt.event.MouseEvent;
+import java.util.Random;
 
 /**
  * Created by Vika on 06.11.2016.
@@ -49,17 +53,62 @@ public class BrackOut  extends GraphicsProgram {
         //number of turns
         private static final int NTURNS = 3;
 
+
+        private GRect paddle;
+        private GOval ball;
+        private double vx,vy;
+
     public void run() {
         setupGame();
         playGame();
     }
 
     private void playGame() {
+        moveBall();
     }
+
+    private void moveBall() {
+        vx=rgen.nextDouble(1.0,3.0);
+        if (rgen.nextBoolean(0.5)) vx=-vx ;
+        vy=3.0;
+
+        while (true){ball.move(vx,vy);
+        checkWalls();}
+        }
+
+    private void checkWalls() {
+        if (ball.getX()<=0){
+            vx=-vx;
+        }else if ((ball.getX()+2*BALL_RADIUS)>=WIDTH){
+            vx=-vx;
+        }else if (ball.getY()<=0){
+            vy=-vy;
+        }else if ((ball.getY()+2*BALL_RADIUS)>=HEIGHT){
+            vy=-vy;
+        }
+
+    }
+
+
+    RandomGenerator rgen = new RandomGenerator();
 
     private void setupGame() {
         buildBricks();
+        addMouseListener();
+        buildPaddle();
+        buildball();
     }
+
+    private void buildball() {
+        ball=new GOval(WIDTH/2-BALL_RADIUS,HEIGHT/2-BALL_RADIUS,2*BALL_RADIUS,2*BALL_RADIUS);
+        ball.setFilled(true);
+        ball.setColor(Color.RED);
+        add(ball);
+    }
+
+    private void addMouseListener() {
+    }
+
 
     private void buildBricks() {
         for (int row = 0; row < NBRICK_ROWS; row++) {
@@ -68,10 +117,10 @@ public class BrackOut  extends GraphicsProgram {
                 brick.setFilled(true);
                 switch (row) {
                     case 0:
-                        brick.setColor(Color.RED);
+                        brick.setColor(Color.CYAN);
                         break;
                     case 1:
-                        brick.setColor(Color.RED);
+                        brick.setColor(Color.CYAN);
                         break;
                     case 2:
                         brick.setColor(Color.ORANGE);
@@ -80,10 +129,10 @@ public class BrackOut  extends GraphicsProgram {
                         brick.setColor(Color.ORANGE);
                         break;
                     case 4:
-                        brick.setColor(Color.YELLOW);
+                        brick.setColor(Color.MAGENTA);
                         break;
                     case 5:
-                        brick.setColor(Color.YELLOW);
+                        brick.setColor(Color.MAGENTA);
                         break;
                     case 6:
                         brick.setColor(Color.GREEN);
@@ -92,10 +141,10 @@ public class BrackOut  extends GraphicsProgram {
                         brick.setColor(Color.GREEN);
                         break;
                     case 8:
-                        brick.setColor(Color.CYAN);
+                        brick.setColor(Color.YELLOW);
                         break;
                     case 9:
-                        brick.setColor(Color.CYAN);
+                        brick.setColor(Color.YELLOW);
                         break;
                     default:
                         break;
@@ -106,6 +155,22 @@ public class BrackOut  extends GraphicsProgram {
             }
 
         }
+    private void buildPaddle() {
+        paddle=new GRect(WIDTH/2-PADDLE_WIDTH/2,HEIGHT-2*PADDLE_Y_OFFSET,PADDLE_WIDTH,PADDLE_HEIGTH);
+        paddle.setFilled(true);
+        paddle.setColor(Color.BLUE);
+
+        add(paddle);
+    }
+
+    public void mouseMoved(MouseEvent e) {
+        if (e.getX()>=0 && e.getX()<WIDTH-PADDLE_WIDTH){
+            paddle.setLocation(e.getX(),HEIGHT-2*PADDLE_Y_OFFSET);
+        } else if(e.getX()>=WIDTH-PADDLE_WIDTH){
+            paddle.setLocation(WIDTH-PADDLE_WIDTH,HEIGHT-2*PADDLE_Y_OFFSET);
+        }
+
+    }
     }
 
 
