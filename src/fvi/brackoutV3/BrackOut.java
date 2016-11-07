@@ -52,6 +52,7 @@ public class BrackOut  extends GraphicsProgram {
 
         //number of turns
         private static final int NTURNS = 3;
+        private static final  int TIME_DELAY=20;
 
 
         private GRect paddle;
@@ -72,7 +73,9 @@ public class BrackOut  extends GraphicsProgram {
         if (rgen.nextBoolean(0.5)) vx=-vx ;
         vy=3.0;
 
-        while (true){ball.move(vx,vy);
+        while (true){
+        ball.move(vx,vy);
+        pause(TIME_DELAY);
         checkWalls();}
         }
 
@@ -83,7 +86,7 @@ public class BrackOut  extends GraphicsProgram {
             vx=-vx;
         }else if (ball.getY()<=0){
             vy=-vy;
-        }else if ((ball.getY()+2*BALL_RADIUS)>=HEIGHT){
+        }else if ((ball.getY()+2*BALL_RADIUS)>=HEIGHT-PADDLE_Y_OFFSET){
             vy=-vy;
         }
 
@@ -94,22 +97,9 @@ public class BrackOut  extends GraphicsProgram {
 
     private void setupGame() {
         buildBricks();
-        addMouseListener();
         buildPaddle();
         buildball();
     }
-
-    private void buildball() {
-        ball=new GOval(WIDTH/2-BALL_RADIUS,HEIGHT/2-BALL_RADIUS,2*BALL_RADIUS,2*BALL_RADIUS);
-        ball.setFilled(true);
-        ball.setColor(Color.RED);
-        add(ball);
-    }
-
-    private void addMouseListener() {
-    }
-
-
     private void buildBricks() {
         for (int row = 0; row < NBRICK_ROWS; row++) {
             for (int col = 0; col < NBRICKS_PER_ROW; col++) {
@@ -161,6 +151,12 @@ public class BrackOut  extends GraphicsProgram {
         paddle.setColor(Color.BLUE);
 
         add(paddle);
+    }
+    private void buildball() {
+        ball=new GOval(WIDTH/2-BALL_RADIUS,HEIGHT/2-BALL_RADIUS,2*BALL_RADIUS,2*BALL_RADIUS);
+        ball.setFilled(true);
+        ball.setColor(Color.RED);
+        add(ball);
     }
 
     public void mouseMoved(MouseEvent e) {
