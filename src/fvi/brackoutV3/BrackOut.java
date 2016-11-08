@@ -69,9 +69,6 @@ public class BrackOut  extends GraphicsProgram {
         playGame();
     }
 
-
-
-
     private void playGame() {
         moveBall();
     }
@@ -105,8 +102,8 @@ public class BrackOut  extends GraphicsProgram {
         }else if ((ball.getY()+2*BALL_RADIUS)>=HEIGHT-PADDLE_Y_OFFSET){
             vy=-vy;
         }
-
     }
+
     private GObject getCollidingObject(){
         if(getElementAt(ball.getX(),ball.getY())!= null){
             return getElementAt(ball.getX(),ball.getY());
@@ -119,12 +116,13 @@ public class BrackOut  extends GraphicsProgram {
         }
         return null;
     }
+
     private void setupGame() {
         buildBricks();
         buildPaddle();
         buildBall();
-
     }
+
     private void buildBricks() {
         for (int row = 0; row < NBRICK_ROWS; row++) {
             for (int col = 0; col < NBRICKS_PER_ROW; col++) {
@@ -168,8 +166,8 @@ public class BrackOut  extends GraphicsProgram {
                     add(brick);
                 }
             }
-
         }
+
     private void buildPaddle() {
         paddle=new GRect(WIDTH/2-PADDLE_WIDTH/2,HEIGHT-2*PADDLE_Y_OFFSET,PADDLE_WIDTH,PADDLE_HEIGTH);
         paddle.setFilled(true);
@@ -177,23 +175,21 @@ public class BrackOut  extends GraphicsProgram {
 
         add(paddle);
     }
+
     public void mouseMoved(MouseEvent e) {
         if (e.getX()>=0 && e.getX()<WIDTH-PADDLE_WIDTH){
             paddle.setLocation(e.getX(),HEIGHT-2*PADDLE_Y_OFFSET);
         } else if(e.getX()>=WIDTH-PADDLE_WIDTH){
             paddle.setLocation(WIDTH-PADDLE_WIDTH,HEIGHT-2*PADDLE_Y_OFFSET);
         }
-
     }
+
     private void buildBall() {
         ball=new GOval(WIDTH/2-BALL_RADIUS,HEIGHT/2-BALL_RADIUS,2*BALL_RADIUS,2*BALL_RADIUS);
         ball.setFilled(true);
         ball.setColor(Color.RED);
         add(ball);
     }
-
-
-
 }
 
 
