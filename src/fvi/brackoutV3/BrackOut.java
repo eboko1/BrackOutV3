@@ -1,5 +1,6 @@
 package fvi.brackoutV3;
 
+import acm.graphics.GObject;
 import acm.graphics.GOval;
 import acm.graphics.GRect;
 import acm.program.GraphicsProgram;
@@ -53,7 +54,8 @@ public class BrackOut  extends GraphicsProgram {
         //number of turns
         private static final int NTURNS = 3;
         private static final  int TIME_DELAY=20;
-
+        //
+        private RandomGenerator rgen = new RandomGenerator().getInstance();
 
         private GRect paddle;
         private GOval ball;
@@ -91,9 +93,6 @@ public class BrackOut  extends GraphicsProgram {
         }
 
     }
-
-
-    RandomGenerator rgen = new RandomGenerator();
 
     private void setupGame() {
         buildBricks();
@@ -166,6 +165,19 @@ public class BrackOut  extends GraphicsProgram {
             paddle.setLocation(WIDTH-PADDLE_WIDTH,HEIGHT-2*PADDLE_Y_OFFSET);
         }
 
+    }
+    private GObject chackCollisions(){
+        if(getElementAt(ball.getX(),ball.getY())!= null){
+        return getElementAt(ball.getX(),ball.getY());
+        } else if (getElementAt(ball.getX()+2*BALL_RADIUS,ball.getY())!=null){
+            return getElementAt((ball.getX()+2*BALL_RADIUS),ball.getY());
+        }else if (getElementAt(ball.getX(),(ball.getY()+2*BALL_RADIUS))!=null){
+            return getElementAt(ball.getX(),(ball.getY()+2*BALL_RADIUS));
+        }
+        else  if (getElementAt((ball.getX()+2*BALL_RADIUS),(ball.getY()+2*BALL_RADIUS))!=null){
+             return getElementAt((ball.getX()+2*BALL_RADIUS),(ball.getY()+2*BALL_RADIUS));
+        }
+          return null;
     }
     }
 
