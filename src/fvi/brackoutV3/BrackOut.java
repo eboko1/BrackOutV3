@@ -54,7 +54,7 @@ public class BrackOut  extends GraphicsProgram {
 
         //number of turns
         private static final int NTURNS = 3;
-        private static final  int TIME_DELAY=20;
+        private static final  int TIME_DELAY=10;
         //
         private RandomGenerator rgen = new RandomGenerator().getInstance();
 
