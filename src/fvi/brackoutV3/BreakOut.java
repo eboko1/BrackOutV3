@@ -14,54 +14,54 @@ import java.util.Random;
 /**
  * Created by Vika on 06.11.2016.
  */
-public class BrackOut  extends GraphicsProgram {
+public class BreakOut extends GraphicsProgram {
 
-        //application window in pixel
-        private static final int APPLICATION_WIDTH = 400;
-        private static final int APPLICATION_HEIGHT = 600;
+    //application window in pixel
+    private static final int APPLICATION_WIDTH = 400;
+    private static final int APPLICATION_HEIGHT = 600;
 
-        // dimensions of game board
-        private static final int WIDTH = APPLICATION_WIDTH;
-        private static final int HEIGHT = APPLICATION_HEIGHT;
+    // dimensions of game board
+    private static final int WIDTH = APPLICATION_WIDTH;
+    private static final int HEIGHT = APPLICATION_HEIGHT;
 
-        //Dimensions of paddle up from the bottom
-        private static final int PADDLE_WIDTH = 60;
-        private static final int PADDLE_HEIGTH = 10;
+    //Dimensions of paddle up from the bottom
+    private static final int PADDLE_WIDTH = 60;
+    private static final int PADDLE_HEIGTH = 10;
 
-        //offset of the paddle up from the bottom
-        private static final int PADDLE_Y_OFFSET = 30;
+    //offset of the paddle up from the bottom
+    private static final int PADDLE_Y_OFFSET = 30;
 
-        //number of bricks per row
-        private static final int NBRICKS_PER_ROW = 10;
+    //number of bricks per row
+    private static final int NBRICKS_PER_ROW = 10;
 
-        // number of rows of bricks
-        private static final int NBRICK_ROWS = 10;
+    // number of rows of bricks
+    private static final int NBRICK_ROWS = 10;
 
-        // separation between bricks
-        private static final int BRICK_SEP = 4;
+    // separation between bricks
+    private static final int BRICK_SEP = 4;
 
-        // width between bricks
-        private static final double BRICK_WIDTH = (WIDTH - (NBRICKS_PER_ROW - 1) * BRICK_SEP) / NBRICKS_PER_ROW;
+    // width between bricks
+    private static final double BRICK_WIDTH = (WIDTH - (NBRICKS_PER_ROW - 1) * BRICK_SEP) / NBRICKS_PER_ROW;
 
-        //height of a brick
-        private static final int BRICK_HEIGHT = 8;
+    //height of a brick
+    private static final int BRICK_HEIGHT = 8;
 
-        //radius of the ball in pixel
-        private static final int BALL_RADIUS = 10;
+    //radius of the ball in pixel
+    private static final int BALL_RADIUS = 10;
 
-        //offset of the top brick row from the top
-        private static final int BRICK_Y_OFFSET = 70;
+    //offset of the top brick row from the top
+    private static final int BRICK_Y_OFFSET = 70;
 
-        //number of turns
-        private static final int NTURNS = 3;
-        private static final  int TIME_DELAY=10;
-        //
-        private RandomGenerator rgen = new RandomGenerator().getInstance();
+    //number of turns
+    private static final int NTURNS = 3;
+    private static final  int TIME_DELAY=10;
+    //
+    private RandomGenerator rgen = new RandomGenerator().getInstance();
 
-        private GRect paddle;
-        private GOval ball;
-        private double vx,vy;
-        private GRect brick;
+    private GRect paddle;
+    private GOval ball;
+    private double vx,vy;
+    private GRect brick;
 
     public void run() {
         setupGame();
@@ -79,9 +79,9 @@ public class BrackOut  extends GraphicsProgram {
         vy=3.0;
 
         while (true){
-        ball.move(vx,vy);
-        pause(TIME_DELAY);
-        checkWalls();
+            ball.move(vx,vy);
+            pause(TIME_DELAY);
+            checkWalls();
             GObject collider = getCollidingObject();
             if (collider==paddle){
                 vy=-vy;
@@ -89,8 +89,8 @@ public class BrackOut  extends GraphicsProgram {
                 remove(collider);
                 vy=-vy;
             }
-          }
         }
+    }
 
     private void checkWalls() {
         if (ball.getX()<=0){
@@ -163,10 +163,10 @@ public class BrackOut  extends GraphicsProgram {
                         break;
 
                 }
-                    add(brick);
-                }
+                add(brick);
             }
         }
+    }
 
     private void buildPaddle() {
         paddle=new GRect(WIDTH/2-PADDLE_WIDTH/2,HEIGHT-2*PADDLE_Y_OFFSET,PADDLE_WIDTH,PADDLE_HEIGTH);
@@ -191,5 +191,3 @@ public class BrackOut  extends GraphicsProgram {
         add(ball);
     }
 }
-
-
