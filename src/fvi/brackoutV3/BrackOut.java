@@ -8,6 +8,7 @@ import acm.util.RandomGenerator;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
+import java.util.EventListener;
 import java.util.Random;
 
 /**
@@ -60,11 +61,16 @@ public class BrackOut  extends GraphicsProgram {
         private GRect paddle;
         private GOval ball;
         private double vx,vy;
+        private GRect brick;
 
     public void run() {
         setupGame();
+        addMouseListeners();
         playGame();
     }
+
+
+
 
     private void playGame() {
         moveBall();
@@ -78,7 +84,15 @@ public class BrackOut  extends GraphicsProgram {
         while (true){
         ball.move(vx,vy);
         pause(TIME_DELAY);
-        checkWalls();}
+        checkWalls();
+            GObject collider = getCollidingObject();
+            if (collider==paddle){
+                vy=-vy;
+            }else if(collider!=null && collider!=paddle){
+                remove(collider);
+                vy=-vy;
+            }
+          }
         }
 
     private void checkWalls() {
@@ -93,16 +107,28 @@ public class BrackOut  extends GraphicsProgram {
         }
 
     }
-
+    private GObject getCollidingObject(){
+        if(getElementAt(ball.getX(),ball.getY())!= null){
+            return getElementAt(ball.getX(),ball.getY());
+        } else if (getElementAt(ball.getX()+2*BALL_RADIUS,ball.getY())!=null){
+            return getElementAt((ball.getX()+2*BALL_RADIUS),ball.getY());
+        }else if (getElementAt(ball.getX(),(ball.getY()+2*BALL_RADIUS))!=null){
+            return getElementAt(ball.getX(),(ball.getY()+2*BALL_RADIUS));
+        } else  if (getElementAt((ball.getX()+2*BALL_RADIUS),(ball.getY()+2*BALL_RADIUS))!=null){
+            return getElementAt((ball.getX()+2*BALL_RADIUS),(ball.getY()+2*BALL_RADIUS));
+        }
+        return null;
+    }
     private void setupGame() {
         buildBricks();
         buildPaddle();
-        buildball();
+        buildBall();
+
     }
     private void buildBricks() {
         for (int row = 0; row < NBRICK_ROWS; row++) {
             for (int col = 0; col < NBRICKS_PER_ROW; col++) {
-                GRect brick = new GRect((BRICK_WIDTH + BRICK_SEP) * col, BRICK_Y_OFFSET + (BRICK_HEIGHT + BRICK_SEP) * row, BRICK_WIDTH, BRICK_HEIGHT);
+                brick = new GRect((BRICK_WIDTH + BRICK_SEP) * col, BRICK_Y_OFFSET + (BRICK_HEIGHT + BRICK_SEP) * row, BRICK_WIDTH, BRICK_HEIGHT);
                 brick.setFilled(true);
                 switch (row) {
                     case 0:
@@ -151,13 +177,6 @@ public class BrackOut  extends GraphicsProgram {
 
         add(paddle);
     }
-    private void buildball() {
-        ball=new GOval(WIDTH/2-BALL_RADIUS,HEIGHT/2-BALL_RADIUS,2*BALL_RADIUS,2*BALL_RADIUS);
-        ball.setFilled(true);
-        ball.setColor(Color.RED);
-        add(ball);
-    }
-
     public void mouseMoved(MouseEvent e) {
         if (e.getX()>=0 && e.getX()<WIDTH-PADDLE_WIDTH){
             paddle.setLocation(e.getX(),HEIGHT-2*PADDLE_Y_OFFSET);
@@ -166,19 +185,15 @@ public class BrackOut  extends GraphicsProgram {
         }
 
     }
-    private GObject chackCollisions(){
-        if(getElementAt(ball.getX(),ball.getY())!= null){
-        return getElementAt(ball.getX(),ball.getY());
-        } else if (getElementAt(ball.getX()+2*BALL_RADIUS,ball.getY())!=null){
-            return getElementAt((ball.getX()+2*BALL_RADIUS),ball.getY());
-        }else if (getElementAt(ball.getX(),(ball.getY()+2*BALL_RADIUS))!=null){
-            return getElementAt(ball.getX(),(ball.getY()+2*BALL_RADIUS));
-        }
-        else  if (getElementAt((ball.getX()+2*BALL_RADIUS),(ball.getY()+2*BALL_RADIUS))!=null){
-             return getElementAt((ball.getX()+2*BALL_RADIUS),(ball.getY()+2*BALL_RADIUS));
-        }
-          return null;
+    private void buildBall() {
+        ball=new GOval(WIDTH/2-BALL_RADIUS,HEIGHT/2-BALL_RADIUS,2*BALL_RADIUS,2*BALL_RADIUS);
+        ball.setFilled(true);
+        ball.setColor(Color.RED);
+        add(ball);
     }
-    }
+
+
+
+}
 
 
